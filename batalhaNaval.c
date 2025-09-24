@@ -55,7 +55,26 @@ int main() {
     for (int i = 0, j = 0; i < 10 && j < 10; i+= (j == 9) , j= (j == 9 ? 0 : ++j)) {
         tabuleiro[i][j] = 0;
     }
+    
+    // verificando se os navios nao batem na borda
+    if (
+        coordenada_navio_1[0] < 0 || coordenada_navio_1[0] > 7
+        || coordenada_navio_1[1] < 0 || coordenada_navio_1[1] > 9
+        )
+    {
+        printf("Coordenada do navio 1 inválida!");
+        return 1;
+    }
 
+    if (
+        coordenada_navio_2[0] < 0 || coordenada_navio_2[0] > 9
+        || coordenada_navio_2[1] < 0 || coordenada_navio_2[1] > 7
+        )
+    {
+        printf("Coordenada do navio 2 inválida!");
+        return 1;
+    }
+    
     //Colocando navio 1 no tabuleiro
     for (int i = 0; i < 3; i++) {
         int coluna, linha;
@@ -69,7 +88,13 @@ int main() {
         int coluna, linha;
         coluna = coordenada_navio_2[1] + i;
         linha = coordenada_navio_2[0];
-        tabuleiro[linha][coluna] = navio_2[i];
+        // verificar se o navio chocou com outro
+        if (tabuleiro[linha][coluna] != 0) {
+            printf("Coordenadas inválidas, os navios não podem se sobrepor!");
+            return 1;
+        } else {
+            tabuleiro[linha][coluna] = navio_2[i];
+        }
     }
 
     // Mostrar tabuleiro
