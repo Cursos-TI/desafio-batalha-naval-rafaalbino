@@ -47,34 +47,50 @@ int main() {
     // 0 0 1 0 0
 
     int tabuleiro[10][10];
-    int navio_1[] = {3, 3, 3}, navio_2[] = {3, 3, 3};
-    int coordenada_navio_1[]= {1, 2}, coordenada_navio_2[]= {7, 5};
+    int navio_1[] = {3, 3, 3}, navio_2[] = {3, 3, 3}, navio_3[] = {3, 3, 3}, navio_4[] = {3, 3, 3};
+    int coordenada_navio_1[2], coordenada_navio_2[2], coordenada_navio_3[2], coordenada_navio_4[2];
     int posicao_correta = 0;
 
     // Zerar tabuleiro
     for (int i = 0, j = 0; i < 10 && j < 10; i+= (j == 9) , j= (j == 9 ? 0 : ++j)) {
         tabuleiro[i][j] = 0;
     }
+
+    // Mostrar tabuleiro para visualização antes de posicionar
+    mostrar_tabuleiro(tabuleiro);
     
-    // verificando se os navios nao batem na borda
-    if (
-        coordenada_navio_1[0] < 0 || coordenada_navio_1[0] > 7
-        || coordenada_navio_1[1] < 0 || coordenada_navio_1[1] > 9
-        )
-    {
-        printf("Coordenada do navio 1 inválida!");
-        return 1;
+    // Recebendo posição dos navios
+    // Navio 1
+    printf("\n\nSelecione a posição do primeiro navio (3 casas, vertical, cima para baixo):");
+    while (1) {
+        char coluna;
+        printf("\nColuna: ");
+        scanf(" %c", &coluna);
+
+        // caso esteja em minusculo trocar para maiusculo
+        if (coluna >= 'a' && coluna <= 'j') {
+                coluna -= 32; 
+            }
+            
+        if (coluna < 'A' || coluna > 'J') {
+            printf("\nColuna Inválida!");
+            continue;
+        }
+        coordenada_navio_1[1] = (int) coluna - 65;
+        break;
+    }
+    while (1) {
+        int linha;
+        printf("\nLinha: ");
+        scanf(" %d", &linha);
+        if (linha < 0 || linha > 7) {
+            printf("\nLinha Inválida!");
+            continue;
+        }
+        coordenada_navio_1[0] = linha;
+        break;
     }
 
-    if (
-        coordenada_navio_2[0] < 0 || coordenada_navio_2[0] > 9
-        || coordenada_navio_2[1] < 0 || coordenada_navio_2[1] > 7
-        )
-    {
-        printf("Coordenada do navio 2 inválida!");
-        return 1;
-    }
-    
     //Colocando navio 1 no tabuleiro
     for (int i = 0; i < 3; i++) {
         int coluna, linha;
@@ -82,19 +98,175 @@ int main() {
         linha = coordenada_navio_1[0] + i;
         tabuleiro[linha][coluna] = navio_1[i];
     }
+    
+    // Mostrar tabuleiro
+    mostrar_tabuleiro(tabuleiro);
+
+    // Navio 2
+    while (!posicao_correta) {
+        printf("\n\nSelecione a posição do segundo navio (3 casas, horizontal, esquerda para direita):");
+        while (1) {
+            char coluna;
+            printf("\nColuna: ");
+            scanf(" %c", &coluna);
+
+            // caso esteja em minusculo trocar para maiusculo
+            if (coluna >= 'a' && coluna <= 'j') {
+                    coluna -= 32; 
+                }
+            
+            if (coluna < 'A' || coluna > 'H') {
+                printf("\nColuna Inválida!");
+                continue;
+            }
+            coordenada_navio_2[1] = (int) coluna - 65;
+            break;
+        }
+        while (1) {
+            int linha;
+            printf("\nLinha: ");
+            scanf(" %d", &linha);
+            if (linha < 0 || linha > 9) {
+                printf("\nLinha Inválida!");
+                continue;
+            }
+            coordenada_navio_2[0] = linha;
+            break;
+        }
+
+        // verificar se chocou com outro navio
+        posicao_correta = 1;
+        for (int i = 0; i < 3; i++) {
+            int coluna, linha;
+            coluna = coordenada_navio_2[1] + i;
+            linha = coordenada_navio_2[0];
+            if (tabuleiro[linha][coluna] == 3){
+                printf("\nPosição Inválida! o navio não pode chocar com outro");
+                posicao_correta = 0;
+            };
+        }
+    }
 
     //Colocando navio 2 no tabuleiro
     for (int i = 0; i < 3; i++) {
         int coluna, linha;
         coluna = coordenada_navio_2[1] + i;
         linha = coordenada_navio_2[0];
-        // verificar se o navio chocou com outro
-        if (tabuleiro[linha][coluna] != 0) {
-            printf("Coordenadas inválidas, os navios não podem se sobrepor!");
-            return 1;
-        } else {
-            tabuleiro[linha][coluna] = navio_2[i];
+        tabuleiro[linha][coluna] = navio_2[i];
+    }
+
+    // Mostrar tabuleiro
+    mostrar_tabuleiro(tabuleiro);
+
+    // Navio 3
+    posicao_correta = 0; //reiniciando a variavel
+    while (!posicao_correta) {
+        printf("\n\nSelecione a posição do terceiro navio (3 casas, diagonal, esquerda p/ direita, cima p/ baixo):");
+        while (1) {
+            char coluna;
+            printf("\nColuna: ");
+            scanf(" %c", &coluna);
+
+            // caso esteja em minusculo trocar para maiusculo
+            if (coluna >= 'a' && coluna <= 'j') {
+                    coluna -= 32; 
+                }
+            
+            if (coluna < 'A' || coluna > 'H') {
+                printf("\nColuna Inválida!");
+                continue;
+            }
+            coordenada_navio_3[1] = (int) coluna - 65;
+            break;
         }
+        while (1) {
+            int linha;
+            printf("\nLinha: ");
+            scanf(" %d", &linha);
+            if (linha < 0 || linha > 7) {
+                printf("\nLinha Inválida!");
+                continue;
+            }
+            coordenada_navio_3[0] = linha;
+            break;
+        }
+
+        // verificar se chocou com outro navio
+        posicao_correta = 1;
+        for (int i = 0; i < 3; i++) {
+            int coluna, linha;
+            coluna = coordenada_navio_3[1] + i;
+            linha = coordenada_navio_3[0] + i;
+            if (tabuleiro[linha][coluna] == 3){
+                printf("\nPosição Inválida! o navio não pode chocar com outro");
+                posicao_correta = 0;
+            };
+        }
+    }
+
+    //Colocando navio 3 no tabuleiro
+    for (int i = 0; i < 3; i++) {
+        int coluna, linha;
+        coluna = coordenada_navio_3[1] + i;
+        linha = coordenada_navio_3[0] + i;
+        tabuleiro[linha][coluna] = navio_3[i];
+    }
+
+    // Mostrar tabuleiro
+    mostrar_tabuleiro(tabuleiro);
+
+    // Navio 4
+    posicao_correta = 0; //reiniciando a variavel
+    while (!posicao_correta) {
+        printf("\n\nSelecione a posição do quarto navio (3 casas, diagonal, direita p/ esquerda, cima p/ baixo):");
+        while (1) {
+            char coluna;
+            printf("\nColuna: ");
+            scanf(" %c", &coluna);
+
+            // caso esteja em minusculo trocar para maiusculo
+            if (coluna >= 'a' && coluna <= 'j') {
+                    coluna -= 32; 
+                }
+            
+            if (coluna < 'C' || coluna > 'J') {
+                printf("\nColuna Inválida!");
+                continue;
+            }
+            coordenada_navio_4[1] = (int) coluna - 65;
+            break;
+        }
+        while (1) {
+            int linha;
+            printf("\nLinha: ");
+            scanf(" %d", &linha);
+            if (linha < 0 || linha > 7) {
+                printf("\nLinha Inválida!");
+                continue;
+            }
+            coordenada_navio_4[0] = linha;
+            break;
+        }
+
+        // verificar se chocou com outro navio
+        posicao_correta = 1;
+        for (int i = 0; i < 3; i++) {
+            int coluna, linha;
+            coluna = coordenada_navio_4[1] - i;
+            linha = coordenada_navio_4[0] + i;
+            if (tabuleiro[linha][coluna] == 3){
+                printf("\nPosição Inválida! o navio não pode chocar com outro");
+                posicao_correta = 0;
+            };
+        }
+    }
+
+    //Colocando navio 4 no tabuleiro
+    for (int i = 0; i < 3; i++) {
+        int coluna, linha;
+        coluna = coordenada_navio_4[1] - i;
+        linha = coordenada_navio_4[0] + i;
+        tabuleiro[linha][coluna] = navio_4[i];
     }
 
     // Mostrar tabuleiro
