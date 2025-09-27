@@ -16,6 +16,21 @@ void mostrar_tabuleiro(int tabuleiro[10][10]) {
     }
 }
 
+void disparar_habilidade(int tabuleiro[10][10], int habilidade[5][5], char nome_habilidade[20]) {
+    int posicao_habilidade[2] = {rand() % 10, rand() % 10};
+
+    printf("\nDisparando Habilidade em %s em: %c%d", nome_habilidade,posicao_habilidade[1] + 65, posicao_habilidade[0]);
+
+    for (int i = -2; i < 3; i++) {
+        for (int j = -2; j < 3; j++) {
+            if (habilidade[i+2][j+2] == 0) continue;
+            if ((posicao_habilidade[0] + i) < 0 || (posicao_habilidade[0] + i) > 9) continue;
+            if ((posicao_habilidade[1] + j) < 0 || (posicao_habilidade[1] + j) > 9) continue;
+            tabuleiro[posicao_habilidade[0] + i][posicao_habilidade[1] + j] = habilidade[i+2][j+2];
+        }
+    }
+}
+
 int main() {
     // Nível Novato - Posicionamento dos Navios
     // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
@@ -74,6 +89,11 @@ int main() {
         {0, 1, 1, 1, 0},
         {0, 0, 1, 0, 0}
     };
+
+    // definir o nome para evitar problemas com a função de disparar habilidades
+    char cone[20] = "cone";
+    char cruz[20] = "cruz";
+    char octaedro[20] = "octaedro";
 
     srand(time(NULL)); //para jogar as habilidades em lugares aleatorios
 
@@ -301,49 +321,13 @@ int main() {
     printf("\n\nDisparando habilidades...\n");
 
     // Jogando habilidade de cone
-    posicao_habilidade[0] = rand() % 10;
-    posicao_habilidade[1] = rand() % 10;
-
-    printf("\nDisparando Habilidade em cone em: %c%d",posicao_habilidade[1] + 65, posicao_habilidade[0]);
-
-    for (int i = -2; i < 3; i++) {
-        for (int j = -2; j < 3; j++) {
-            if (habilidade_cone[i+2][j+2] == 0) continue;
-            if ((posicao_habilidade[0] + i) < 0 || (posicao_habilidade[0] + i) > 9) continue;
-            if ((posicao_habilidade[1] + j) < 0 || (posicao_habilidade[1] + j) > 9) continue;
-            tabuleiro[posicao_habilidade[0] + i][posicao_habilidade[1] + j] = habilidade_cone[i+2][j+2];
-        }
-    }
+    disparar_habilidade(tabuleiro, habilidade_cone, cone);
 
     // Jogando habilidade de cruz
-    posicao_habilidade[0] = rand() % 10;
-    posicao_habilidade[1] = rand() % 10;
-
-    printf("\nDisparando Habilidade em cruz em: %c%d",posicao_habilidade[1] + 65, posicao_habilidade[0]);
-
-    for (int i = -2; i < 3; i++) {
-        for (int j = -2; j < 3; j++) {
-            if (habilidade_cruz[i+2][j+2] == 0) continue;
-            if ((posicao_habilidade[0] + i) < 0 || (posicao_habilidade[0] + i) > 9) continue;
-            if ((posicao_habilidade[1] + j) < 0 || (posicao_habilidade[1] + j) > 9) continue;
-            tabuleiro[posicao_habilidade[0] + i][posicao_habilidade[1] + j] = habilidade_cruz[i+2][j+2];
-        }
-    }
+    disparar_habilidade(tabuleiro, habilidade_cruz, cruz);
 
     // Jogando habilidade de octaedro
-    posicao_habilidade[0] = rand() % 10;
-    posicao_habilidade[1] = rand() % 10;
-
-    printf("\nDisparando Habilidade em octaedro em: %c%d",posicao_habilidade[1] + 65, posicao_habilidade[0]);
-
-    for (int i = -2; i < 3; i++) {
-        for (int j = -2; j < 3; j++) {
-            if (habilidade_octaedro[i+2][j+2] == 0) continue;
-            if ((posicao_habilidade[0] + i) < 0 || (posicao_habilidade[0] + i) > 9) continue;
-            if ((posicao_habilidade[1] + j) < 0 || (posicao_habilidade[1] + j) > 9) continue;
-            tabuleiro[posicao_habilidade[0] + i][posicao_habilidade[1] + j] = habilidade_octaedro[i+2][j+2];
-        }
-    }
+    disparar_habilidade(tabuleiro, habilidade_octaedro, octaedro);
 
     // Mostrar tabuleiro
     mostrar_tabuleiro(tabuleiro);
