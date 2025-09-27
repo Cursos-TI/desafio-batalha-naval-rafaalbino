@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 // Desafio Batalha Naval - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
@@ -50,6 +52,30 @@ int main() {
     int navio_1[] = {3, 3, 3}, navio_2[] = {3, 3, 3}, navio_3[] = {3, 3, 3}, navio_4[] = {3, 3, 3};
     int coordenada_navio_1[2], coordenada_navio_2[2], coordenada_navio_3[2], coordenada_navio_4[2];
     int posicao_correta = 0;
+    int posicao_habilidade[2] = {0, 0};
+    int habilidade_cone[5][5] = {
+        {0, 0, 0, 0, 0},
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+        {0, 0, 0, 0, 0}
+    };
+    int habilidade_cruz[5][5] = {
+        {0, 0, 1, 0, 0},
+        {0, 0, 1, 0, 0},
+        {1, 1, 1, 1, 1},
+        {0, 0, 1, 0, 0},
+        {0, 0, 1, 0, 0}
+    };
+    int habilidade_octaedro[5][5] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 0, 0}
+    };
+
+    srand(time(NULL)); //para jogar as habilidades em lugares aleatorios
 
     // Zerar tabuleiro
     for (int i = 0, j = 0; i < 10 && j < 10; i+= (j == 9) , j= (j == 9 ? 0 : ++j)) {
@@ -267,6 +293,56 @@ int main() {
         coluna = coordenada_navio_4[1] - i;
         linha = coordenada_navio_4[0] + i;
         tabuleiro[linha][coluna] = navio_4[i];
+    }
+
+    // Mostrar tabuleiro
+    mostrar_tabuleiro(tabuleiro);
+
+    printf("\n\nDisparando habilidades...\n");
+
+    // Jogando habilidade de cone
+    posicao_habilidade[0] = rand() % 10;
+    posicao_habilidade[1] = rand() % 10;
+
+    printf("\nDisparando Habilidade em cone em: %c%d",posicao_habilidade[1] + 65, posicao_habilidade[0]);
+
+    for (int i = -2; i < 3; i++) {
+        for (int j = -2; j < 3; j++) {
+            if (habilidade_cone[i+2][j+2] == 0) continue;
+            if ((posicao_habilidade[0] + i) < 0 || (posicao_habilidade[0] + i) > 9) continue;
+            if ((posicao_habilidade[1] + j) < 0 || (posicao_habilidade[1] + j) > 9) continue;
+            tabuleiro[posicao_habilidade[0] + i][posicao_habilidade[1] + j] = habilidade_cone[i+2][j+2];
+        }
+    }
+
+    // Jogando habilidade de cruz
+    posicao_habilidade[0] = rand() % 10;
+    posicao_habilidade[1] = rand() % 10;
+
+    printf("\nDisparando Habilidade em cruz em: %c%d",posicao_habilidade[1] + 65, posicao_habilidade[0]);
+
+    for (int i = -2; i < 3; i++) {
+        for (int j = -2; j < 3; j++) {
+            if (habilidade_cruz[i+2][j+2] == 0) continue;
+            if ((posicao_habilidade[0] + i) < 0 || (posicao_habilidade[0] + i) > 9) continue;
+            if ((posicao_habilidade[1] + j) < 0 || (posicao_habilidade[1] + j) > 9) continue;
+            tabuleiro[posicao_habilidade[0] + i][posicao_habilidade[1] + j] = habilidade_cruz[i+2][j+2];
+        }
+    }
+
+    // Jogando habilidade de octaedro
+    posicao_habilidade[0] = rand() % 10;
+    posicao_habilidade[1] = rand() % 10;
+
+    printf("\nDisparando Habilidade em octaedro em: %c%d",posicao_habilidade[1] + 65, posicao_habilidade[0]);
+
+    for (int i = -2; i < 3; i++) {
+        for (int j = -2; j < 3; j++) {
+            if (habilidade_octaedro[i+2][j+2] == 0) continue;
+            if ((posicao_habilidade[0] + i) < 0 || (posicao_habilidade[0] + i) > 9) continue;
+            if ((posicao_habilidade[1] + j) < 0 || (posicao_habilidade[1] + j) > 9) continue;
+            tabuleiro[posicao_habilidade[0] + i][posicao_habilidade[1] + j] = habilidade_octaedro[i+2][j+2];
+        }
     }
 
     // Mostrar tabuleiro
